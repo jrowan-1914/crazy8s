@@ -421,8 +421,7 @@ function SmackTalk() {
       {/* Messages */}
       <div
         ref={messagesEndRef}
-        className="overflow-y-auto px-5 py-3 space-y-3"
-        style={{ maxHeight: "300px" }}
+        className="overflow-y-auto px-5 py-3 space-y-3 max-h-64"
       >
         {!data?.messages || data.messages.length === 0 ? (
           <p className="text-sm text-[var(--text-muted)] text-center py-4">
