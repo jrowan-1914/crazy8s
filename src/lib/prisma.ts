@@ -20,7 +20,7 @@ function createPrismaClient() {
       password: decodeURIComponent(url.password),
       ssl: { rejectUnauthorized: false },
     });
-    const adapter = new PrismaPg({ pool });
+    const adapter = new PrismaPg(pool);
     return new PrismaClient({ adapter });
   }
 
