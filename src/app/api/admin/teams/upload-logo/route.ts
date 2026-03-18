@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
 
 export async function POST(req: NextRequest) {
   const { error } = await requireAdmin();
@@ -18,18 +16,9 @@ export async function POST(req: NextRequest) {
 
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
-
-  // Save to public/logos directory
-  const logosDir = path.join(process.cwd(), "public", "logos");
-  await mkdir(logosDir, { recursive: true });
-
-  const ext = file.name.split(".").pop() || "png";
-  const filename = `${teamId}.${ext}`;
-  const filepath = path.join(logosDir, filename);
-
-  await writeFile(filepath, buffer);
-
-  const logoUrl = `/logos/${filename}`;
+  const base64 = buffer.toString("base64");
+  const mimeType = file.type || "image/png";
+  const logoUrl = `data:${mimeType};base64,${base64}`;
 
   await prisma.team.update({
     where: { id: teamId },
