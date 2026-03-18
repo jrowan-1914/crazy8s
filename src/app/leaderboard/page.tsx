@@ -387,18 +387,24 @@ function SmackTalk() {
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!author.trim() || !message.trim() || sending) return;
+    const trimmedAuthor = author.trim();
+    const trimmedMessage = message.trim();
+    if (!trimmedAuthor || !trimmedMessage || sending) return;
 
     setSending(true);
     try {
-      localStorage.setItem("smacktalk-author", author.trim());
-      await fetch("/api/chat", {
+      localStorage.setItem("smacktalk-author", trimmedAuthor);
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ author: author.trim(), message: message.trim() }),
+        body: JSON.stringify({ author: trimmedAuthor, message: trimmedMessage }),
       });
-      setMessage("");
-      mutate();
+      if (res.ok) {
+        setMessage("");
+        await mutate();
+      }
+    } catch {
+      // silently fail
     } finally {
       setSending(false);
     }
