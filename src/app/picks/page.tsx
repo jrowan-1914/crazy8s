@@ -48,6 +48,11 @@ function PicksContent() {
     const playerData = await playerRes.json();
     setPlayer(playerData);
 
+    // Save player name for Smack Talk auto-fill
+    if (playerData.name) {
+      localStorage.setItem("smacktalk-author", playerData.name);
+    }
+
     if (teamsRes.ok) setTeams(await teamsRes.json());
     if (settingsRes.ok) {
       const settings = await settingsRes.json();
