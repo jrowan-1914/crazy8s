@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  function buildPickDetails(picks: typeof player1.picks) {
+  function buildPickDetails(picks: typeof player1!.picks) {
     return picks.map((pick) => {
       const wins = pick.team.wins.length;
       return {
