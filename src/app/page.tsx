@@ -1,65 +1,133 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen flex flex-col">
+      {/* Hero Section */}
+      <section className="relative flex flex-col items-center justify-center px-6 py-32 overflow-hidden">
+        {/* Background radial glow */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 60% 40% at 50% 30%, rgba(240, 165, 0, 0.08) 0%, transparent 70%)",
+          }}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+
+        <div className="relative z-10 text-center max-w-3xl mx-auto space-y-6">
+          <p className="uppercase tracking-[0.3em] text-[var(--text-muted)] text-sm font-medium">
+            NCAA March Madness
+          </p>
+          <h1
+            className="font-display text-8xl sm:text-9xl font-800 tracking-tight leading-none gold-text"
+            style={{ fontWeight: 800 }}
+          >
+            CRAZY 8&apos;S
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+          <p className="text-xl sm:text-2xl text-[var(--text-muted)] max-w-lg mx-auto leading-relaxed">
+            Pick 8 teams. Score big on upsets.{" "}
+            <span className="text-[var(--text-primary)] font-medium">Win it all.</span>
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+            <Link
+              href="/leaderboard"
+              className="btn-gold px-10 py-3.5 rounded-lg text-lg font-display font-700 uppercase tracking-wide inline-block text-center"
+              style={{ fontWeight: 700 }}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              View Leaderboard
+            </Link>
+            <Link
+              href="/login"
+              className="px-10 py-3.5 rounded-lg text-lg font-display font-700 uppercase tracking-wide border border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent-gold)] hover:text-[var(--accent-gold)] transition-all inline-block text-center"
+              style={{ fontWeight: 700 }}
             >
-              Learning
-            </a>{" "}
-            center.
+              Admin Login
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="max-w-4xl mx-auto w-full px-6">
+        <hr className="divider" />
+      </div>
+
+      {/* How It Works */}
+      <section className="max-w-4xl mx-auto w-full px-6 py-20">
+        <h2 className="font-display text-3xl sm:text-4xl font-700 text-center mb-12 uppercase tracking-wide" style={{ fontWeight: 700 }}>
+          How It Works
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              num: "01",
+              title: "Draft Your 8",
+              desc: "Pick 8 teams from the full 64-team tournament field.",
+            },
+            {
+              num: "02",
+              title: "Score on Wins",
+              desc: "Every win earns you points equal to that team's seed number.",
+            },
+            {
+              num: "03",
+              title: "Chase Upsets",
+              desc: "Higher seeds = more points per win. Bet on Cinderella!",
+            },
+          ].map((step) => (
+            <div key={step.num} className="surface-card p-6 space-y-3">
+              <span className="scoreboard-num text-5xl gold-text">{step.num}</span>
+              <h3 className="font-display text-xl font-700 text-[var(--text-primary)]" style={{ fontWeight: 700 }}>
+                {step.title}
+              </h3>
+              <p className="text-[var(--text-muted)] leading-relaxed">{step.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Scoring Example */}
+      <section className="max-w-4xl mx-auto w-full px-6 pb-20">
+        <div className="elevated-card p-8">
+          <h3 className="font-display text-xl font-700 uppercase tracking-wide text-[var(--text-muted)] mb-6" style={{ fontWeight: 700 }}>
+            Scoring Breakdown
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="surface-card p-5 flex items-center gap-5">
+              <div className="text-center">
+                <p className="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-1">Seed</p>
+                <p className="scoreboard-num text-4xl text-[var(--accent-gold)]">#13</p>
+              </div>
+              <div className="h-12 w-px bg-[var(--border)]" />
+              <div>
+                <p className="text-[var(--text-muted)] text-sm">Wins 3 games</p>
+                <p className="scoreboard-num text-3xl text-[var(--success)]">39 pts</p>
+              </div>
+            </div>
+            <div className="surface-card p-5 flex items-center gap-5">
+              <div className="text-center">
+                <p className="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-1">Seed</p>
+                <p className="scoreboard-num text-4xl text-[var(--accent-gold)]">#2</p>
+              </div>
+              <div className="h-12 w-px bg-[var(--border)]" />
+              <div>
+                <p className="text-[var(--text-muted)] text-sm">Wins 5 games</p>
+                <p className="scoreboard-num text-3xl text-[var(--text-primary)]">10 pts</p>
+              </div>
+            </div>
+          </div>
+          <p className="text-[var(--text-muted)] text-sm mt-5 text-center">
+            The upset path pays off big. Choose wisely.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-[var(--border)] py-8 text-center text-[var(--text-muted)] text-sm mt-auto">
+        Crazy 8&apos;s &mdash; March Madness Picks Game
+      </footer>
     </div>
   );
 }

@@ -1,0 +1,317 @@
+/* ── Page layout ── */
+.bracket-page {
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: var(--bg-primary);
+}
+.bracket-header {
+  max-width: 1400px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bracket-heading {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.bracket-subheading {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+.bracket-nav-links {
+  display: flex;
+  gap: 1rem;
+}
+.bracket-link {
+  font-size: 0.875rem;
+  color: var(--accent-gold);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.bracket-link:hover {
+  color: var(--accent-gold-hover);
+  text-decoration: underline;
+}
+
+/* ── Regions container ── */
+.bracket-regions-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.bracket-regions-row {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  min-width: max-content;
+}
+
+/* ── Region bracket ── */
+.region-bracket {
+  flex: 0 0 auto;
+  min-width: 580px;
+}
+.region-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  padding-left: 0.25rem;
+}
+.region-rounds {
+  display: flex;
+  gap: 0;
+}
+
+/* ── Bracket round column ── */
+.bracket-round {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  position: relative;
+}
+.bracket-round--0 { min-width: 160px; }
+.bracket-round--1 { min-width: 160px; }
+.bracket-round--2 { min-width: 160px; }
+.bracket-round--3 { min-width: 160px; }
+
+/* vertical spacing grows with each round so matchups center */
+.bracket-round--0 .bracket-game-wrapper { padding: 2px 0; }
+.bracket-round--1 .bracket-game-wrapper { padding: 22px 0; }
+.bracket-round--2 .bracket-game-wrapper { padding: 66px 0; }
+.bracket-round--3 .bracket-game-wrapper { padding: 154px 0; }
+
+.bracket-game-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Connector lines ── */
+.bracket-round--0 .bracket-game-wrapper::after,
+.bracket-round--1 .bracket-game-wrapper::after,
+.bracket-round--2 .bracket-game-wrapper::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  width: 12px;
+  height: 0;
+  border-top: 2px solid var(--border);
+}
+
+.bracket-round--0 .bracket-game-wrapper:nth-child(odd)::before,
+.bracket-round--1 .bracket-game-wrapper:nth-child(odd)::before,
+.bracket-round--2 .bracket-game-wrapper:nth-child(odd)::before {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  width: 0;
+  border-right: 2px solid var(--border);
+}
+.bracket-round--0 .bracket-game-wrapper:nth-child(even)::before,
+.bracket-round--1 .bracket-game-wrapper:nth-child(even)::before,
+.bracket-round--2 .bracket-game-wrapper:nth-child(even)::before {
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: 50%;
+  width: 0;
+  border-right: 2px solid var(--border);
+}
+
+.bracket-round--0 .bracket-game-wrapper:nth-child(odd)::before { height: calc(50% + 2px + 24px); }
+.bracket-round--0 .bracket-game-wrapper:nth-child(even)::before { height: calc(50% + 2px + 24px); }
+.bracket-round--1 .bracket-game-wrapper:nth-child(odd)::before { height: calc(50% + 2px + 46px); }
+.bracket-round--1 .bracket-game-wrapper:nth-child(even)::before { height: calc(50% + 2px + 46px); }
+.bracket-round--2 .bracket-game-wrapper:nth-child(odd)::before { height: calc(50% + 2px + 90px); }
+.bracket-round--2 .bracket-game-wrapper:nth-child(even)::before { height: calc(50% + 2px + 90px); }
+
+.bracket-round--1 .bracket-game-wrapper .matchup-card::before,
+.bracket-round--2 .bracket-game-wrapper .matchup-card::before,
+.bracket-round--3 .bracket-game-wrapper .matchup-card::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  width: 12px;
+  height: 0;
+  border-top: 2px solid var(--border);
+}
+
+/* ── Reversed region (West, Midwest — flows right-to-left) ── */
+.region-bracket--reversed .region-title {
+  text-align: right;
+  padding-right: 0.25rem;
+  padding-left: 0;
+}
+
+/* Flip horizontal connectors: out-connector goes left instead of right */
+.region-bracket--reversed .bracket-round--0 .bracket-game-wrapper::after,
+.region-bracket--reversed .bracket-round--1 .bracket-game-wrapper::after,
+.region-bracket--reversed .bracket-round--2 .bracket-game-wrapper::after {
+  right: auto;
+  left: -1px;
+}
+
+/* Flip vertical connectors: go left instead of right */
+.region-bracket--reversed .bracket-round--0 .bracket-game-wrapper:nth-child(odd)::before,
+.region-bracket--reversed .bracket-round--1 .bracket-game-wrapper:nth-child(odd)::before,
+.region-bracket--reversed .bracket-round--2 .bracket-game-wrapper:nth-child(odd)::before {
+  right: auto;
+  left: -1px;
+  border-right: none;
+  border-left: 2px solid var(--border);
+}
+.region-bracket--reversed .bracket-round--0 .bracket-game-wrapper:nth-child(even)::before,
+.region-bracket--reversed .bracket-round--1 .bracket-game-wrapper:nth-child(even)::before,
+.region-bracket--reversed .bracket-round--2 .bracket-game-wrapper:nth-child(even)::before {
+  right: auto;
+  left: -1px;
+  border-right: none;
+  border-left: 2px solid var(--border);
+}
+
+/* Flip incoming connectors: come from right instead of left */
+.region-bracket--reversed .bracket-round--1 .bracket-game-wrapper .matchup-card::before,
+.region-bracket--reversed .bracket-round--2 .bracket-game-wrapper .matchup-card::before,
+.region-bracket--reversed .bracket-round--3 .bracket-game-wrapper .matchup-card::before {
+  left: auto;
+  right: -12px;
+}
+
+/* ── Matchup card ── */
+.matchup-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  width: 148px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.2s ease;
+}
+.matchup-card:hover {
+  border-color: var(--border-hover);
+}
+.matchup-divider {
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Team cell ── */
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  height: 26px;
+  font-size: 0.7rem;
+  color: var(--text-primary);
+}
+.team-cell--winner {
+  background: var(--success-glow);
+  font-weight: 700;
+}
+.team-cell--eliminated {
+  opacity: 0.35;
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+.team-cell--tbd {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.team-logo {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.seed-badge {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  background: var(--accent-gold);
+  color: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.seed-badge--empty {
+  background: var(--border);
+  color: var(--text-muted);
+}
+.team-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+.team-name--tbd {
+  font-weight: 400;
+}
+.seed-num {
+  color: var(--text-muted);
+  font-size: 0.6rem;
+  flex-shrink: 0;
+}
+
+/* ── Final rounds ── */
+.final-rounds {
+  max-width: 700px;
+  margin: 1rem auto 2rem;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: flex-start;
+}
+.final-section {
+  text-align: center;
+}
+.final-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+.final-matchups {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+.final-matchups .matchup-card {
+  width: 180px;
+}
+.final-matchups .team-cell {
+  height: 30px;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+}
+.final-matchups .team-logo {
+  width: 22px;
+  height: 22px;
+}
+.final-matchups .seed-badge {
+  width: 22px;
+  height: 22px;
+  font-size: 0.65rem;
+}
