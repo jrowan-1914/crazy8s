@@ -1,6 +1,5 @@
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-import pg from "pg";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
@@ -10,9 +9,9 @@ function createPrismaClient() {
   const connString = process.env.DATABASE_URL_DIRECT;
 
   if (connString && connString.includes("digitalocean")) {
-    // Production: parse URL and create pool with SSL
+    // Production: parse URL and rebuild with SSL config for PrismaPg
     const url = new URL(connString);
-    const pool = new pg.Pool({
+    const adapter = new PrismaPg({
       host: url.hostname,
       port: parseInt(url.port),
       database: url.pathname.slice(1),
@@ -20,7 +19,6 @@ function createPrismaClient() {
       password: decodeURIComponent(url.password),
       ssl: { rejectUnauthorized: false },
     });
-    const adapter = new PrismaPg(pool);
     return new PrismaClient({ adapter });
   }
 
