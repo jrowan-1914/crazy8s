@@ -46,24 +46,27 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  function buildPickDetails(picks: typeof player1!.picks) {
-    return picks.map((pick) => {
-      const wins = pick.team.wins.length;
-      return {
-        teamId: pick.team.id,
-        teamName: pick.team.name,
-        seed: pick.team.seed,
-        region: pick.team.region,
-        logoUrl: pick.team.logoUrl,
-        eliminated: pick.team.eliminated,
-        wins,
-        points: pick.team.seed * wins,
-      };
-    });
-  }
+  const p1Picks = player1.picks.map((pick) => ({
+    teamId: pick.team.id,
+    teamName: pick.team.name,
+    seed: pick.team.seed,
+    region: pick.team.region,
+    logoUrl: pick.team.logoUrl,
+    eliminated: pick.team.eliminated,
+    wins: pick.team.wins.length,
+    points: pick.team.seed * pick.team.wins.length,
+  }));
 
-  const p1Picks = buildPickDetails(player1.picks);
-  const p2Picks = buildPickDetails(player2.picks);
+  const p2Picks = player2.picks.map((pick) => ({
+    teamId: pick.team.id,
+    teamName: pick.team.name,
+    seed: pick.team.seed,
+    region: pick.team.region,
+    logoUrl: pick.team.logoUrl,
+    eliminated: pick.team.eliminated,
+    wins: pick.team.wins.length,
+    points: pick.team.seed * pick.team.wins.length,
+  }));
 
   const p1TeamIds = new Set(p1Picks.map((p) => p.teamId));
   const p2TeamIds = new Set(p2Picks.map((p) => p.teamId));
