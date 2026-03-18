@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import ResetPanel from "./ResetPanel";
+import ChangePasswordPanel from "./ChangePasswordPanel";
 
 interface DashboardData {
   teamCount: number;
@@ -67,6 +68,8 @@ export default function AdminDashboard() {
           </span>
         </div>
       </div>
+
+      <ChangePasswordPanel />
 
       <ResetPanel />
     </div>
