@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
   if (mode === "season") {
     // Reset game but keep teams: clear results, picks, reset player pick status, unlock picks, un-eliminate teams
     await prisma.$transaction([
+      prisma.chatMessage.deleteMany(),
       prisma.gameResult.deleteMany(),
       prisma.pick.deleteMany(),
       prisma.user.updateMany({
@@ -32,6 +33,7 @@ export async function POST(req: NextRequest) {
   if (mode === "full") {
     // Nuke everything except the admin user
     await prisma.$transaction([
+      prisma.chatMessage.deleteMany(),
       prisma.gameResult.deleteMany(),
       prisma.pick.deleteMany(),
       prisma.team.deleteMany(),

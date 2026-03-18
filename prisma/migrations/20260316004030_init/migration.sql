@@ -81,7 +81,7 @@ CREATE TABLE "GameResult" (
 CREATE TABLE "Settings" (
     "id" TEXT NOT NULL DEFAULT 'global',
     "picksLocked" BOOLEAN NOT NULL DEFAULT false,
-    "tournamentName" TEXT NOT NULL DEFAULT 'NCAA March Madness 2026',
+    "tournamentName" TEXT NOT NULL DEFAULT 'College Basketball Tournament 2026',
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Settings_pkey" PRIMARY KEY ("id")

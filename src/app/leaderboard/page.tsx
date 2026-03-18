@@ -348,6 +348,136 @@ function HeadToHeadPanel({
   );
 }
 
+// --- Smack Talk Chat ---
+interface ChatMessageData {
+  id: string;
+  author: string;
+  message: string;
+  createdAt: string;
+}
+
+function timeAgo(date: string): string {
+  const seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
+  if (seconds < 60) return "just now";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
+
+function SmackTalk() {
+  const { data, mutate } = useSWR<{ messages: ChatMessageData[] }>(
+    "/api/chat",
+    fetcher,
+    { refreshInterval: 10000 }
+  );
+  const [author, setAuthor] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("smacktalk-author") || "";
+    }
+    return "";
+  });
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+  const messagesEndRef = useCallback((node: HTMLDivElement | null) => {
+    if (node) node.scrollTop = node.scrollHeight;
+  }, []);
+
+  const handleSend = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!author.trim() || !message.trim() || sending) return;
+
+    setSending(true);
+    try {
+      localStorage.setItem("smacktalk-author", author.trim());
+      await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ author: author.trim(), message: message.trim() }),
+      });
+      setMessage("");
+      mutate();
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <div className="surface-card overflow-hidden">
+      <div className="px-5 py-3 border-b border-[var(--border)] bg-[var(--bg-elevated)]">
+        <h2 className="font-display text-xl gold-text" style={{ fontWeight: 700 }}>
+          SMACK TALK
+        </h2>
+      </div>
+
+      {/* Messages */}
+      <div
+        ref={messagesEndRef}
+        className="overflow-y-auto px-5 py-3 space-y-3"
+        style={{ maxHeight: "300px" }}
+      >
+        {!data?.messages || data.messages.length === 0 ? (
+          <p className="text-sm text-[var(--text-muted)] text-center py-4">
+            No smack talk yet. Be the first to start talking trash!
+          </p>
+        ) : (
+          data.messages.map((msg) => (
+            <div key={msg.id} className="flex gap-2">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-baseline gap-2">
+                  <span className="font-bold text-sm text-[var(--accent-gold)]">
+                    {msg.author}
+                  </span>
+                  <span className="text-xs text-[var(--text-muted)] flex-shrink-0">
+                    {timeAgo(msg.createdAt)}
+                  </span>
+                </div>
+                <p className="text-sm text-[var(--text-primary)] mt-0.5 break-words">
+                  {msg.message}
+                </p>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Input form */}
+      <form
+        onSubmit={handleSend}
+        className="px-5 py-3 border-t border-[var(--border)] bg-[var(--bg-surface)]"
+      >
+        <div className="flex gap-2">
+          <input
+            type="text"
+            placeholder="Your name"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            maxLength={30}
+            className="w-28 flex-shrink-0 px-3 py-2 rounded-lg text-sm bg-[var(--bg-elevated)] border border-[var(--border)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-gold)]"
+          />
+          <input
+            type="text"
+            placeholder="Talk your trash..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            maxLength={500}
+            className="flex-1 px-3 py-2 rounded-lg text-sm bg-[var(--bg-elevated)] border border-[var(--border)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-gold)]"
+          />
+          <button
+            type="submit"
+            disabled={sending || !author.trim() || !message.trim()}
+            className="btn-gold px-4 py-2 rounded-lg text-sm font-semibold flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Send
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
 // --- Feature 4: Most Popular Picks ---
 function MostPopularPicks() {
   const { data, isLoading } = useSWR<PopularPicksData>(
@@ -532,7 +662,7 @@ export default function LeaderboardPage() {
               Leaderboard
             </h1>
             <p className="text-sm text-[var(--text-muted)] mt-1">
-              Crazy 8&apos;s — March Madness
+              Crazy 8&apos;s — Tournament
             </p>
           </div>
           <div className="flex gap-4 items-center">
@@ -724,6 +854,11 @@ export default function LeaderboardPage() {
             })}
           </div>
         )}
+
+        {/* Smack Talk */}
+        <div className="pt-4">
+          <SmackTalk />
+        </div>
 
         {/* Feature 4: Most Popular Picks */}
         {leaderboard && leaderboard.length > 0 && (

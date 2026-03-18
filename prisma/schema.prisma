@@ -91,6 +91,13 @@ model GameResult {
 model Settings {
   id             String   @id @default("global")
   picksLocked    Boolean  @default(false)
-  tournamentName String   @default("NCAA March Madness 2026")
+  tournamentName String   @default("College Basketball Tournament 2026")
   updatedAt      DateTime @updatedAt
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  author    String   // Player name (no auth required, just a name)
+  message   String
+  createdAt DateTime @default(now())
 }

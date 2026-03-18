@@ -16,7 +16,7 @@ export default function Home() {
 
         <div className="relative z-10 text-center max-w-3xl mx-auto space-y-6">
           <p className="uppercase tracking-[0.3em] text-[var(--text-muted)] text-sm font-medium">
-            NCAA March Madness
+            College Basketball Tournament
           </p>
           <h1
             className="font-display text-8xl sm:text-9xl font-800 tracking-tight leading-none gold-text"
@@ -126,7 +126,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-[var(--border)] py-8 text-center text-[var(--text-muted)] text-sm mt-auto">
-        Crazy 8&apos;s &mdash; March Madness Picks Game
+        Crazy 8&apos;s &mdash; College Basketball Picks
       </footer>
     </div>
   );

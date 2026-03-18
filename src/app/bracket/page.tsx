@@ -182,7 +182,7 @@ export default function BracketPage() {
       <div className="bracket-header">
         <div>
           <h1 className="bracket-heading font-display gold-text">Tournament Bracket</h1>
-          <p className="bracket-subheading">Crazy 8&apos;s &mdash; March Madness</p>
+          <p className="bracket-subheading">Crazy 8&apos;s &mdash; Tournament</p>
         </div>
         <div className="bracket-nav-links">
           <Link href="/" className="bracket-link">Home</Link>

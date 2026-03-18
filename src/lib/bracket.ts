@@ -1,4 +1,4 @@
-// Standard NCAA tournament bracket structure within a region.
+// Standard 64-team tournament bracket structure within a region.
 // Round 1 matchups by seed pairing (higher seed listed first):
 // Game 1: 1v16, Game 2: 8v9, Game 3: 5v12, Game 4: 4v13
 // Game 5: 6v11, Game 6: 3v14, Game 7: 7v10, Game 8: 2v15

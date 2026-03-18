@@ -3,7 +3,7 @@ import "./globals.css";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
-  title: "Crazy 8's — NCAA March Madness Picks",
+  title: "Crazy 8's — College Basketball Picks",
   description: "Pick 8 teams. Score big on upsets. Win it all.",
 };
 
