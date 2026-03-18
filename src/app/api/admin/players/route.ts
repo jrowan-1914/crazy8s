@@ -24,11 +24,14 @@ export async function POST(req: NextRequest) {
 
   const { name, email } = await req.json();
 
-  if (!name || !email) {
-    return NextResponse.json({ error: "Name and email are required" }, { status: 400 });
+  if (!name) {
+    return NextResponse.json({ error: "Name is required" }, { status: 400 });
   }
 
-  const existing = await prisma.user.findUnique({ where: { email } });
+  // Auto-generate a unique placeholder email if not provided
+  const playerEmail = email || `${name.toLowerCase().replace(/\s+/g, ".")}.${Date.now()}@player.local`;
+
+  const existing = await prisma.user.findUnique({ where: { email: playerEmail } });
   if (existing) {
     return NextResponse.json({ error: "A user with this email already exists" }, { status: 409 });
   }
@@ -36,7 +39,7 @@ export async function POST(req: NextRequest) {
   const player = await prisma.user.create({
     data: {
       name,
-      email,
+      email: playerEmail,
       role: "player",
       accessToken: uuid(),
     },

@@ -96,10 +96,9 @@ export default function PlayersPage() {
           />
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Email (optional)"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
             className="px-4 py-2 border border-[var(--border)] rounded-lg bg-[var(--bg-surface)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-gold)] focus:border-transparent"
           />
         </div>
