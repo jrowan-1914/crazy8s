@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     teams.map((team: { name: string; seed: number; region: string; logoUrl?: string }) =>
       prisma.team.upsert({
         where: { region_seed: { region: team.region, seed: team.seed } },
-        update: { name: team.name, logoUrl: team.logoUrl || null },
+        update: { name: team.name },
         create: {
           name: team.name,
           seed: team.seed,
