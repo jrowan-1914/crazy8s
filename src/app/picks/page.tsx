@@ -151,6 +151,13 @@ function PicksContent() {
             <p className="text-[var(--text-muted)]">{player.name}</p>
           </div>
 
+          <a
+            href="/leaderboard"
+            className="block w-full text-center py-3 px-6 btn-gold rounded-lg text-sm uppercase tracking-wider font-semibold"
+          >
+            View Leaderboard
+          </a>
+
           <div className="surface-card overflow-hidden">
             {submittedPicks.map((team, idx) => {
               const wins = team.wins?.length || 0;
@@ -199,14 +206,6 @@ function PicksContent() {
             </p>
           </div>
 
-          <div className="text-center">
-            <a
-              href="/leaderboard"
-              className="text-sm text-[var(--accent-gold)] hover:text-[var(--accent-gold-hover)] transition-colors font-medium"
-            >
-              View Leaderboard
-            </a>
-          </div>
         </div>
       </div>
     );
